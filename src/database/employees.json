@@ -1,0 +1,40 @@
+{
+  "usuarios": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "admin123",
+      "nombre": "Administrador General",
+      "cargo": "Administrador de Plataforma",
+      "empresa": "ALL",
+      "rol": "admin"
+    },
+    {
+      "id": 2,
+      "username": "almasa.empleado",
+      "password": "admin123",
+      "nombre": "Juan Pérez",
+      "cargo": "Analista de Indicadores",
+      "empresa": "almasa",
+      "rol": "empleado"
+    },
+    {
+      "id": 3,
+      "username": "colmena.empleado",
+      "password": "admin123",
+      "nombre": "María Gómez",
+      "cargo": "Coordinadora Comercial",
+      "empresa": "colmena",
+      "rol": "empleado"
+    },
+    {
+      "id": 4,
+      "username": "gyj.empleado",
+      "password": "admin123",
+      "nombre": "Carlos Rodríguez",
+      "cargo": "Jefe de Operaciones",
+      "empresa": "gyj",
+      "rol": "empleado"
+    }
+  ]
+}
