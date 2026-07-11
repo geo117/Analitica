@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
-import { Container, Pagination } from 'react-bootstrap';
-import { FaArrowLeft, FaPlus, FaEdit, FaTrashAlt } from 'react-icons/fa';
+import { Container, Pagination, Modal } from 'react-bootstrap';
+import { FaArrowLeft, FaPlus, FaEdit, FaTrashAlt, FaSave, FaTimes } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
 import '../../css/css admin/Usuarios.css';
@@ -18,6 +18,9 @@ const MOCK_USUARIOS = Array.from({ length: 87 }, (_, i) => ({
 function Usuarios() {
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
+  const [showModal, setShowModal] = useState(false);
+  const [editUser, setEditUser] = useState(null);
+  const [formData, setFormData] = useState({ nombre: '', username: '', email: '', rol: 'Lector' });
 
   const totalPages = Math.ceil(MOCK_USUARIOS.length / PAGE_SIZE);
 
@@ -65,6 +68,23 @@ function Usuarios() {
     return items;
   }, [page, totalPages]);
 
+  const handleNew = () => {
+    setEditUser(null);
+    setFormData({ nombre: '', username: '', email: '', rol: 'Lector' });
+    setShowModal(true);
+  };
+
+  const handleEdit = (user, e) => {
+    e.stopPropagation();
+    setEditUser(user);
+    setFormData({ nombre: user.nombre, username: user.username, email: user.email, rol: user.rol });
+    setShowModal(true);
+  };
+
+  const handleClose = () => {
+    setShowModal(false);
+  };
+
   return (
     <div className="admin-page">
       <Navbar brandName="Administración" />
@@ -87,7 +107,7 @@ function Usuarios() {
 
           <div className="usuarios-toolbar">
             <span />
-            <button type="button" className="usuarios-btn-new">
+            <button type="button" className="usuarios-btn-new" onClick={handleNew}>
               <FaPlus />
               <span>Crear nuevo usuario</span>
             </button>
@@ -118,7 +138,7 @@ function Usuarios() {
                       </span>
                     </td>
                     <td className="usuarios-actions">
-                      <button type="button" className="usuarios-action-btn" title="Editar">
+                      <button type="button" className="usuarios-action-btn" title="Editar" onClick={(e) => handleEdit(u, e)}>
                         <FaEdit />
                       </button>
                       <button type="button" className="usuarios-action-btn usuarios-action-btn--danger" title="Eliminar">
@@ -149,6 +169,66 @@ function Usuarios() {
           </div>
         </Container>
       </main>
+
+      <Modal show={showModal} onHide={handleClose} centered size="md" className="usuarios-modal">
+        <div className="usuarios-modal__header">
+          <h4 className="usuarios-modal__title">
+            {editUser ? 'Editar usuario' : 'Nuevo usuario'}
+          </h4>
+          <div className="usuarios-modal__header-actions">
+            <button type="button" className="usuarios-modal__icon-btn" title="Guardar">
+              <FaSave />
+            </button>
+            <button type="button" className="usuarios-modal__icon-btn usuarios-modal__icon-btn--cancel" title="Cancelar" onClick={handleClose}>
+              <FaTimes />
+            </button>
+          </div>
+        </div>
+        <div className="usuarios-modal__body">
+          <div className="usuarios-modal__field">
+            <label className="usuarios-modal__label">Nombre completo</label>
+            <input
+              type="text"
+              className="usuarios-modal__input"
+              value={formData.nombre}
+              onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
+              placeholder="Ej: Juan Pérez"
+            />
+          </div>
+          <div className="usuarios-modal__field">
+            <label className="usuarios-modal__label">Usuario</label>
+            <input
+              type="text"
+              className="usuarios-modal__input"
+              value={formData.username}
+              onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+              placeholder="Ej: jperez"
+            />
+          </div>
+          <div className="usuarios-modal__field">
+            <label className="usuarios-modal__label">Correo electrónico</label>
+            <input
+              type="email"
+              className="usuarios-modal__input"
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              placeholder="Ej: jperez@correo.com"
+            />
+          </div>
+          <div className="usuarios-modal__field">
+            <label className="usuarios-modal__label">Rol</label>
+            <select
+              className="usuarios-modal__input usuarios-modal__select"
+              value={formData.rol}
+              onChange={(e) => setFormData({ ...formData, rol: e.target.value })}
+            >
+              <option value="Admin">Admin</option>
+              <option value="Editor">Editor</option>
+              <option value="Lector">Lector</option>
+            </select>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }

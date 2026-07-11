@@ -1,11 +1,18 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef } from 'react';
 import { Container, Row, Col, Pagination } from 'react-bootstrap';
-import { FaArrowLeft, FaPlus, FaEdit, FaTrashAlt, FaNewspaper } from 'react-icons/fa';
+import { FaArrowLeft, FaPlus, FaEdit, FaTrashAlt, FaNewspaper, FaSave, FaTimes, FaImage } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
 import '../../css/css admin/Noticias.css';
 
 const PAGE_SIZE = 8;
+
+const MOCK_EMPRESAS = [
+  { id: 1, nombre: 'Administrador General', nombreCorto: 'ALL' },
+  { id: 2, nombre: 'Almasa', nombreCorto: 'almasa' },
+  { id: 3, nombre: 'Colmena', nombreCorto: 'colmena' },
+  { id: 4, nombre: 'GyJ', nombreCorto: 'gyj' },
+];
 
 const MOCK_NOTICIAS = Array.from({ length: 25 }, (_, i) => ({
   id: i + 1,
@@ -13,12 +20,16 @@ const MOCK_NOTICIAS = Array.from({ length: 25 }, (_, i) => ({
   fecha: new Date(2025, 0, i + 1).toLocaleDateString('es-MX'),
   contenido: `Contenido completo de la noticia número ${i + 1}.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\n\nExcepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`,
   resumen: `Resumen breve de la noticia ${i + 1}.`,
+  empresas: MOCK_EMPRESAS.filter((_, j) => (i + j) % 2 !== 0),
 }));
 
 function Noticias() {
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const [selected, setSelected] = useState(null);
+  const [showForm, setShowForm] = useState(false);
+  const [formData, setFormData] = useState({ titulo: '', contenido: '', imagenes: [], empresas: [] });
+  const fileInputRef = useRef(null);
 
   const totalPages = Math.ceil(MOCK_NOTICIAS.length / PAGE_SIZE);
 
@@ -51,6 +62,52 @@ function Noticias() {
     return items;
   }, [page, totalPages]);
 
+  const handleSelect = (n) => {
+    setSelected(n);
+    setShowForm(false);
+  };
+
+  const handleNew = () => {
+    setSelected(null);
+    setFormData({ titulo: '', contenido: '', imagenes: [], empresas: [] });
+    setShowForm(true);
+  };
+
+  const handleEdit = (noticia, e) => {
+    e.stopPropagation();
+    setSelected(noticia);
+    setFormData({
+      titulo: noticia.titulo,
+      contenido: noticia.contenido,
+      imagenes: noticia.imagenes || [],
+      empresas: noticia.empresas || [],
+    });
+    setShowForm(true);
+  };
+
+  const handleCancel = () => {
+    setShowForm(false);
+  };
+
+  const handleImageSelect = (e) => {
+    const files = Array.from(e.target.files);
+    const nuevos = files.map((f) => ({
+      id: Date.now() + Math.random(),
+      nombre: f.name,
+      url: URL.createObjectURL(f),
+      archivo: f,
+    }));
+    setFormData((prev) => ({ ...prev, imagenes: [...prev.imagenes, ...nuevos] }));
+    e.target.value = '';
+  };
+
+  const removeImage = (id) => {
+    setFormData((prev) => ({
+      ...prev,
+      imagenes: prev.imagenes.filter((img) => img.id !== id),
+    }));
+  };
+
   return (
     <div className="admin-page">
       <Navbar brandName="Administración" />
@@ -76,7 +133,7 @@ function Noticias() {
           <Row className="noticias-toolbar">
             <Col xs={12} lg={7} />
             <Col xs={12} lg={5} className="noticias-toolbar-col">
-              <button type="button" className="noticias-btn-new">
+              <button type="button" className="noticias-btn-new" onClick={handleNew}>
                 <FaPlus />
                 <span>Crear noticia</span>
               </button>
@@ -100,13 +157,13 @@ function Noticias() {
                       <tr
                         key={n.id}
                         className={`noticias-tr ${selected?.id === n.id ? 'noticias-tr--active' : ''}`}
-                        onClick={() => setSelected(n)}
+                        onClick={() => handleSelect(n)}
                       >
                         <td>{n.id}</td>
                         <td className="noticias-cell-title">{n.titulo}</td>
                         <td>{n.fecha}</td>
                         <td className="noticias-actions">
-                          <button type="button" className="noticias-action-btn" title="Editar">
+                          <button type="button" className="noticias-action-btn" title="Editar" onClick={(e) => handleEdit(n, e)}>
                             <FaEdit />
                           </button>
                           <button type="button" className="noticias-action-btn noticias-action-btn--danger" title="Eliminar">
@@ -139,11 +196,119 @@ function Noticias() {
 
             <Col xs={12} lg={5} className="noticias-col-right">
               <div className="noticias-detail">
-                {selected ? (
+                {showForm ? (
+                  <div className="noticias-form">
+                    <div className="noticias-form__title-row">
+                      <h4 className="noticias-form__title">
+                        {selected ? `Editar: ${selected.titulo}` : 'Nueva noticia'}
+                      </h4>
+                      <div className="noticias-form__title-actions">
+                        <button type="button" className="noticias-form__icon-btn" title="Guardar">
+                          <FaSave />
+                        </button>
+                        <button type="button" className="noticias-form__icon-btn noticias-form__icon-btn--cancel" title="Cancelar" onClick={handleCancel}>
+                          <FaTimes />
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="noticias-form__field">
+                      <label className="noticias-form__label">Título</label>
+                      <input
+                        type="text"
+                        className="noticias-form__input"
+                        value={formData.titulo}
+                        onChange={(e) => setFormData({ ...formData, titulo: e.target.value })}
+                        placeholder="Título de la noticia"
+                      />
+                    </div>
+
+                    <div className="noticias-form__field">
+                      <label className="noticias-form__label">Contenido</label>
+                      <textarea
+                        className="noticias-form__textarea"
+                        rows={6}
+                        value={formData.contenido}
+                        onChange={(e) => setFormData({ ...formData, contenido: e.target.value })}
+                        placeholder="Escribe el contenido de la noticia..."
+                      />
+                    </div>
+                    
+                    <div className="noticias-form__field">
+                      <label className="noticias-form__label">Empresas destinatarias</label>
+                      <div className="noticias-form__empresas-grid">
+                        {MOCK_EMPRESAS.map((emp) => (
+                          <label key={emp.id} className="noticias-form__empresa-check">
+                            <input
+                              type="checkbox"
+                              checked={formData.empresas.some((e) => e.id === emp.id)}
+                              onChange={() => {
+                                setFormData((prev) => ({
+                                  ...prev,
+                                  empresas: prev.empresas.some((e) => e.id === emp.id)
+                                    ? prev.empresas.filter((e) => e.id !== emp.id)
+                                    : [...prev.empresas, emp],
+                                }));
+                              }}
+                            />
+                            <span>{emp.nombre}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="noticias-form__field">
+                      <label className="noticias-form__label">Imágenes</label>
+                      <button
+                        type="button"
+                        className="noticias-form__image-btn"
+                        onClick={() => fileInputRef.current?.click()}
+                      >
+                        <FaImage />
+                        <span>Agregar imágenes</span>
+                      </button>
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        className="noticias-form__file-input"
+                        onChange={handleImageSelect}
+                      />
+                      {formData.imagenes.length > 0 && (
+                        <div className="noticias-form__previews">
+                          {formData.imagenes.map((img) => (
+                            <div key={img.id} className="noticias-form__preview">
+                              <img src={img.url} alt={img.nombre} />
+                              <button
+                                type="button"
+                                className="noticias-form__preview-remove"
+                                onClick={() => removeImage(img.id)}
+                              >
+                                <FaTimes />
+                              </button>
+                              <span className="noticias-form__preview-name">{img.nombre}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ) : selected ? (
                   <div className="noticias-detail__scroll">
                     <h4 className="noticias-detail__title">{selected.titulo}</h4>
                     <span className="noticias-detail__date">{selected.fecha}</span>
                     <p className="noticias-detail__body">{selected.contenido}</p>
+                    {selected.empresas && selected.empresas.length > 0 && (
+                      <div className="noticias-detail__empresas">
+                        <strong className="noticias-detail__empresas-label">Empresas destinatarias:</strong>
+                        <div className="noticias-detail__empresas-list">
+                          {selected.empresas.map((emp) => (
+                            <span key={emp.id} className="noticias-detail__empresa-tag">{emp.nombre}</span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <div className="noticias-detail__empty">

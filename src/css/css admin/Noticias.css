@@ -245,6 +245,276 @@
   font-size: 0.95rem;
 }
 
+/* ── Form ── */
+.noticias-form {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.noticias-form__title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.noticias-form__title {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+}
+
+.noticias-form__title-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.noticias-form__icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--color-muted);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: border-color var(--transition), color var(--transition), background-color var(--transition);
+}
+
+.noticias-form__icon-btn:hover {
+  border-color: var(--color-yellow);
+  color: var(--color-black);
+  background-color: var(--color-yellow-soft);
+}
+
+.noticias-form__icon-btn--cancel:hover {
+  border-color: #dc3545;
+  color: #dc3545;
+  background-color: rgba(220, 53, 69, 0.08);
+}
+
+.noticias-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.noticias-form__label {
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--color-muted);
+}
+
+.noticias-form__input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--color-black);
+  background-color: var(--color-white);
+  transition: border-color var(--transition), box-shadow var(--transition);
+  outline: none;
+}
+
+.noticias-form__input:focus {
+  border-color: var(--color-yellow);
+  box-shadow: 0 0 0 3px rgba(255, 204, 0, 0.25);
+}
+
+.noticias-form__input::placeholder {
+  color: var(--color-muted);
+  opacity: 0.6;
+}
+
+.noticias-form__textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--color-black);
+  background-color: var(--color-white);
+  transition: border-color var(--transition), box-shadow var(--transition);
+  outline: none;
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.6;
+}
+
+.noticias-form__textarea:focus {
+  border-color: var(--color-yellow);
+  box-shadow: 0 0 0 3px rgba(255, 204, 0, 0.25);
+}
+
+.noticias-form__textarea::placeholder {
+  color: var(--color-muted);
+  opacity: 0.6;
+}
+
+.noticias-form__image-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--color-muted);
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color var(--transition), color var(--transition), background-color var(--transition);
+}
+
+.noticias-form__image-btn:hover {
+  border-color: var(--color-yellow);
+  color: var(--color-black);
+  background-color: var(--color-yellow-soft);
+}
+
+.noticias-form__file-input {
+  display: none;
+}
+
+.noticias-form__previews {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding-top: 4px;
+}
+
+.noticias-form__preview {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.noticias-form__preview img {
+  width: 100%;
+  height: 80px;
+  object-fit: cover;
+  display: block;
+}
+
+.noticias-form__preview-remove {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.55);
+  color: var(--color-white);
+  font-size: 0.6rem;
+  cursor: pointer;
+  transition: background-color var(--transition);
+}
+
+.noticias-form__preview-remove:hover {
+  background-color: #dc3545;
+}
+
+.noticias-form__preview-name {
+  font-size: 0.7rem;
+  color: var(--color-muted);
+  padding: 2px 6px 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.noticias-form__empresas-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface);
+}
+
+.noticias-form__empresa-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color var(--transition);
+  font-size: 0.88rem;
+}
+
+.noticias-form__empresa-check:hover {
+  background-color: var(--color-yellow-soft);
+}
+
+.noticias-form__empresa-check input[type="checkbox"] {
+  accent-color: var(--color-yellow);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.noticias-detail__empresas {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-border);
+}
+
+.noticias-detail__empresas-label {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--color-muted);
+  margin-bottom: 10px;
+}
+
+.noticias-detail__empresas-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.noticias-detail__empresa-tag {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 999px;
+  background-color: var(--color-yellow-soft);
+  color: var(--color-black);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
 @media (max-width: 768px) {
   .noticias-table-scroll {
     overflow-x: auto;
