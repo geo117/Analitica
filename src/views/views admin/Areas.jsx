@@ -76,122 +76,126 @@ function Areas() {
       <main className="admin-content">
         <Container>
           <div className="admin-header">
-            <div className="admin-header__top">
-              <h3>Áreas</h3>
-              <button
-                type="button"
-                className="admin-header__back"
-                onClick={() => navigate('/admin')}
-              >
-                <FaArrowLeft />
-                <span>Volver</span>
+            <div className="admin-header__box">
+              <div className="admin-header__top">
+                <h3>Áreas</h3>
+                <button
+                  type="button"
+                  className="admin-header__back"
+                  onClick={() => navigate('/admin')}
+                >
+                  <FaArrowLeft />
+                  <span>Volver</span>
+                </button>
+              </div>
+              <p>Administra las áreas de la plataforma.</p>
+            </div>
+          </div>
+
+          <div className="admin-section__box">
+            <div className="areas-toolbar">
+              <span />
+              <button type="button" className="areas-btn-new" onClick={handleNew}>
+                <FaPlus />
+                <span>Nueva área</span>
               </button>
             </div>
-            <p>Administra las áreas de la plataforma.</p>
-          </div>
 
-          <div className="areas-toolbar">
-            <span />
-            <button type="button" className="areas-btn-new" onClick={handleNew}>
-              <FaPlus />
-              <span>Nueva área</span>
-            </button>
-          </div>
-
-          <Row className="areas-layout">
-            <Col xs={12} lg={7} className="areas-col-left">
-              <div className="areas-table-scroll">
-                <table className="table areas-table">
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Nombre Área</th>
-                      <th>Fecha Creación</th>
-                      <th className="areas-th-actions">Acciones</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {pageData.map((a) => (
-                      <tr key={a.id}>
-                        <td>{a.id}</td>
-                        <td className="areas-cell-name">{a.nombre}</td>
-                        <td>{a.fechaCreacion}</td>
-                        <td className="areas-actions">
-                          <button
-                            type="button"
-                            className="areas-action-btn"
-                            title="Editar"
-                            onClick={() => handleEdit(a)}
-                          >
-                            <FaEdit />
-                          </button>
-                          <button
-                            type="button"
-                            className="areas-action-btn areas-action-btn--danger"
-                            title="Eliminar"
-                          >
-                            <FaTrashAlt />
-                          </button>
-                        </td>
+            <Row className="areas-layout">
+              <Col xs={12} lg={7} className="areas-col-left">
+                <div className="areas-table-scroll">
+                  <table className="table areas-table">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Nombre Área</th>
+                        <th>Fecha Creación</th>
+                        <th className="areas-th-actions">Acciones</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                    </thead>
+                    <tbody>
+                      {pageData.map((a) => (
+                        <tr key={a.id}>
+                          <td>{a.id}</td>
+                          <td className="areas-cell-name">{a.nombre}</td>
+                          <td>{a.fechaCreacion}</td>
+                          <td className="areas-actions">
+                            <button
+                              type="button"
+                              className="areas-action-btn"
+                              title="Editar"
+                              onClick={() => handleEdit(a)}
+                            >
+                              <FaEdit />
+                            </button>
+                            <button
+                              type="button"
+                              className="areas-action-btn areas-action-btn--danger"
+                              title="Eliminar"
+                            >
+                              <FaTrashAlt />
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
 
-              <div className="areas-footer">
-                <span className="areas-footer__count">
-                  Total: <strong>{MOCK_AREAS.length}</strong> áreas
-                </span>
-                <Pagination className="areas-pagination">
-                  <Pagination.Prev
-                    disabled={page === 1}
-                    onClick={() => setPage((p) => Math.max(1, p - 1))}
-                  />
-                  {pages}
-                  <Pagination.Next
-                    disabled={page === totalPages}
-                    onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-                  />
-                </Pagination>
-              </div>
-            </Col>
+                <div className="areas-footer">
+                  <span className="areas-footer__count">
+                    Total: <strong>{MOCK_AREAS.length}</strong> áreas
+                  </span>
+                  <Pagination className="areas-pagination">
+                    <Pagination.Prev
+                      disabled={page === 1}
+                      onClick={() => setPage((p) => Math.max(1, p - 1))}
+                    />
+                    {pages}
+                    <Pagination.Next
+                      disabled={page === totalPages}
+                      onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                    />
+                  </Pagination>
+                </div>
+              </Col>
 
-            <Col xs={12} lg={5} className="areas-col-right">
-              <div className="areas-detail">
-                {showForm ? (
-                  <div className="areas-form">
-                    <h4 className="areas-form__title">
-                      {selected ? 'Editar área' : 'Nueva área'}
-                    </h4>
-                    <div className="areas-form__field">
-                      <label className="areas-form__label">Nombre del área</label>
-                      <input
-                        type="text"
-                        className="areas-form__input"
-                        value={editData.nombre}
-                        onChange={(e) => setEditData({ ...editData, nombre: e.target.value })}
-                        placeholder="Ej: Contabilidad"
-                      />
+              <Col xs={12} lg={5} className="areas-col-right">
+                <div className="areas-detail">
+                  {showForm ? (
+                    <div className="areas-form">
+                      <h4 className="areas-form__title">
+                        {selected ? 'Editar área' : 'Nueva área'}
+                      </h4>
+                      <div className="areas-form__field">
+                        <label className="areas-form__label">Nombre del área</label>
+                        <input
+                          type="text"
+                          className="areas-form__input"
+                          value={editData.nombre}
+                          onChange={(e) => setEditData({ ...editData, nombre: e.target.value })}
+                          placeholder="Ej: Contabilidad"
+                        />
+                      </div>
+                      <div className="areas-form__actions">
+                        <button type="button" className="areas-form__btn areas-form__btn--save">
+                          Guardar
+                        </button>
+                        <button type="button" className="areas-form__btn areas-form__btn--cancel" onClick={handleCancel}>
+                          Cancelar
+                        </button>
+                      </div>
                     </div>
-                    <div className="areas-form__actions">
-                      <button type="button" className="areas-form__btn areas-form__btn--save">
-                        Guardar
-                      </button>
-                      <button type="button" className="areas-form__btn areas-form__btn--cancel" onClick={handleCancel}>
-                        Cancelar
-                      </button>
+                  ) : (
+                    <div className="areas-detail__empty">
+                      <FaLayerGroup size={40} />
+                      <p>Selecciona un área o crea una nueva</p>
                     </div>
-                  </div>
-                ) : (
-                  <div className="areas-detail__empty">
-                    <FaLayerGroup size={40} />
-                    <p>Selecciona un área o crea una nueva</p>
-                  </div>
-                )}
-              </div>
-            </Col>
-          </Row>
+                  )}
+                </div>
+              </Col>
+            </Row>
+          </div>
         </Container>
       </main>
     </div>

@@ -29,12 +29,13 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   overflow: hidden;
+  background-color: var(--color-white);
 }
 
 .usuarios-table {
   width: 100%;
   margin-bottom: 0;
-  --bs-table-bg: transparent;
+  --bs-table-bg: var(--color-white);
   --bs-table-striped-bg: var(--color-surface);
   --bs-table-hover-bg: var(--color-yellow-soft);
 }
@@ -124,6 +125,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 16px 0;
+  background-color: var(--color-white);
 }
 
 .usuarios-footer__count {

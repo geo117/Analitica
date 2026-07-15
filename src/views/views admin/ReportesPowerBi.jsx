@@ -28,76 +28,80 @@ function ReportesPowerBi() {
       <main className="admin-content">
         <Container>
           <div className="admin-header">
-            <div className="admin-header__top">
-              <h3>Reportes PowerBi</h3>
-              <button
-                type="button"
-                className="admin-header__back"
-                onClick={() => navigate('/admin')}
-              >
-                <FaArrowLeft />
-                <span>Volver</span>
-              </button>
+            <div className="admin-header__box">
+              <div className="admin-header__top">
+                <h3>Reportes PowerBi</h3>
+                <button
+                  type="button"
+                  className="admin-header__back"
+                  onClick={() => navigate('/admin')}
+                >
+                  <FaArrowLeft />
+                  <span>Volver</span>
+                </button>
+              </div>
+              <p>Selecciona un reporte para ver su información.</p>
             </div>
-            <p>Selecciona un reporte para ver su información.</p>
           </div>
 
-          <Row className="reportes-layout">
-            <Col xs={12} lg={7} className="reportes-col-left">
-              <div className="reportes-grid">
-                {MOCK_REPORTES.map((r) => (
-                  <button
-                    key={r.id}
-                    type="button"
-                    className={`reportes-card ${selected?.id === r.id ? 'reportes-card--active' : ''}`}
-                    onClick={() => setSelected(r)}
-                  >
-                    <FaChartBar className="reportes-card__icon" />
-                    <span className="reportes-card__name">{r.nombre}</span>
-                  </button>
-                ))}
-              </div>
-            </Col>
+          <div className="admin-section__box">
+            <Row className="reportes-layout">
+              <Col xs={12} lg={7} className="reportes-col-left">
+                <div className="reportes-grid">
+                  {MOCK_REPORTES.map((r) => (
+                    <button
+                      key={r.id}
+                      type="button"
+                      className={`reportes-card ${selected?.id === r.id ? 'reportes-card--active' : ''}`}
+                      onClick={() => setSelected(r)}
+                    >
+                      <FaChartBar className="reportes-card__icon" />
+                      <span className="reportes-card__name">{r.nombre}</span>
+                    </button>
+                  ))}
+                </div>
+              </Col>
 
-            <Col xs={12} lg={5} className="reportes-col-right">
-              <div className="reportes-detail">
-                {selected ? (
-                  <>
-                    <h4 className="reportes-detail__title">{selected.nombre}</h4>
+              <Col xs={12} lg={5} className="reportes-col-right">
+                <div className="reportes-detail">
+                  {selected ? (
+                    <>
+                      <h4 className="reportes-detail__title">{selected.nombre}</h4>
 
-                    <div className="reportes-detail__row">
-                      <FaCalendarAlt className="reportes-detail__row-icon" />
-                      <div className="reportes-detail__row-content">
-                        <span className="reportes-detail__label">Fecha de publicación</span>
-                        <span className="reportes-detail__value">{selected.fecha}</span>
-                      </div>
-                    </div>
-
-                    <div className="reportes-detail__row">
-                      <FaUser className="reportes-detail__row-icon" />
-                      <div className="reportes-detail__row-content">
-                        <span className="reportes-detail__label">Usuarios con acceso ({selected.usuarios.length})</span>
-                      </div>
-                    </div>
-
-                    <div className="reportes-detail__users">
-                      {selected.usuarios.map((u) => (
-                        <div key={u} className="reportes-detail__user">
-                          <FaUser className="reportes-detail__user-icon" />
-                          <span>{u}</span>
+                      <div className="reportes-detail__row">
+                        <FaCalendarAlt className="reportes-detail__row-icon" />
+                        <div className="reportes-detail__row-content">
+                          <span className="reportes-detail__label">Fecha de publicación</span>
+                          <span className="reportes-detail__value">{selected.fecha}</span>
                         </div>
-                      ))}
+                      </div>
+
+                      <div className="reportes-detail__row">
+                        <FaUser className="reportes-detail__row-icon" />
+                        <div className="reportes-detail__row-content">
+                          <span className="reportes-detail__label">Usuarios con acceso ({selected.usuarios.length})</span>
+                        </div>
+                      </div>
+
+                      <div className="reportes-detail__users">
+                        {selected.usuarios.map((u) => (
+                          <div key={u} className="reportes-detail__user">
+                            <FaUser className="reportes-detail__user-icon" />
+                            <span>{u}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </>
+                  ) : (
+                    <div className="reportes-detail__empty">
+                      <FaChartBar size={40} />
+                      <p>Selecciona un reporte para ver su información</p>
                     </div>
-                  </>
-                ) : (
-                  <div className="reportes-detail__empty">
-                    <FaChartBar size={40} />
-                    <p>Selecciona un reporte para ver su información</p>
-                  </div>
-                )}
-              </div>
-            </Col>
-          </Row>
+                  )}
+                </div>
+              </Col>
+            </Row>
+          </div>
         </Container>
       </main>
     </div>

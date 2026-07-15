@@ -141,217 +141,221 @@ function Perfiles() {
       <main className="admin-content">
         <Container>
           <div className="admin-header">
-            <div className="admin-header__top">
-              <h3>Perfiles</h3>
-              <button
-                type="button"
-                className="admin-header__back"
-                onClick={() => navigate('/admin')}
-              >
-                <FaArrowLeft />
-                <span>Volver</span>
-              </button>
+            <div className="admin-header__box">
+              <div className="admin-header__top">
+                <h3>Perfiles</h3>
+                <button
+                  type="button"
+                  className="admin-header__back"
+                  onClick={() => navigate('/admin')}
+                >
+                  <FaArrowLeft />
+                  <span>Volver</span>
+                </button>
+              </div>
+              <p>Configura los perfiles de acceso.</p>
             </div>
-            <p>Configura los perfiles de acceso.</p>
           </div>
 
-          <Row className="perfiles-toolbar">
-            <Col xs={12} lg={7} />
-            <Col xs={12} lg={5} className="perfiles-toolbar-col">
-              <button type="button" className="perfiles-btn-new" onClick={handleNew}>
-                <FaPlus />
-                <span>Crear nuevo perfil</span>
-              </button>
-            </Col>
-          </Row>
+          <div className="admin-section__box">
+            <Row className="perfiles-toolbar">
+              <Col xs={12} lg={7} />
+              <Col xs={12} lg={5} className="perfiles-toolbar-col">
+                <button type="button" className="perfiles-btn-new" onClick={handleNew}>
+                  <FaPlus />
+                  <span>Crear nuevo perfil</span>
+                </button>
+              </Col>
+            </Row>
 
-          <Row className="perfiles-layout">
-            <Col xs={12} lg={7} className="perfiles-col-left">
-              <div className="perfiles-table-scroll">
-                <table className="table perfiles-table">
-                  <thead>
-                    <tr className='text-center'>
-                      <th>Nombre</th>
-                      <th>Areas</th>
-                      <th>Fecha Creación</th>
-                      <th>Usuarios</th>
-                      <th className="perfiles-th-actions">Acciones</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {pageData.map((p) => (
-                      <tr
-                        key={p.id}
-                        className={`perfiles-tr ${selected?.id === p.id ? 'perfiles-tr--active' : ''}`}
-                        onClick={() => handleSelect(p)}
-                      >
-                        <td className="perfiles-cell-name">{p.nombre}</td>
-                        <td className='text-center'>
-                          <span className="perfiles-badge-count">{p.areas.length}</span>
-                        </td>
-                        <td className='text-center'>{p.fechaCreacion}</td>
-                        <td className='text-center'>
-                          <span className="perfiles-badge-count">{p.usuarios.length}</span>
-                        </td>
-                        <td className="perfiles-actions">
-                          <button type="button" className="perfiles-action-btn" title="Editar" onClick={(e) => handleEdit(p, e)}>
-                            <FaEdit />
-                          </button>
-                          <button type="button" className="perfiles-action-btn perfiles-action-btn--danger" title="Eliminar">
-                            <FaTrashAlt />
-                          </button>
-                        </td>
+            <Row className="perfiles-layout">
+              <Col xs={12} lg={7} className="perfiles-col-left">
+                <div className="perfiles-table-scroll">
+                  <table className="table perfiles-table">
+                    <thead>
+                      <tr className='text-center'>
+                        <th>Nombre</th>
+                        <th>Areas</th>
+                        <th>Fecha Creación</th>
+                        <th>Usuarios</th>
+                        <th className="perfiles-th-actions">Acciones</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-
-              <div className="perfiles-footer">
-                <span className="perfiles-footer__count">
-                  Total: <strong>{MOCK_PERFILES.length}</strong> perfiles
-                </span>
-                <Pagination className="perfiles-pagination">
-                  <Pagination.Prev
-                    disabled={page === 1}
-                    onClick={() => setPage((p) => Math.max(1, p - 1))}
-                  />
-                  {pages}
-                  <Pagination.Next
-                    disabled={page === totalPages}
-                    onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-                  />
-                </Pagination>
-              </div>
-            </Col>
-
-            <Col xs={12} lg={5} className="perfiles-col-right">
-              <div className="perfiles-detail">
-                {showForm ? (
-                  <div className="perfiles-form">
-                    <div className="perfiles-form__title-row">
-                      <h4 className="perfiles-form__title">
-                        {selected ? `Editar: ${selected.nombre}` : 'Nuevo perfil'}
-                      </h4>
-                      <div className="perfiles-form__title-actions">
-                        <button type="button" className="perfiles-form__icon-btn" title="Guardar">
-                          <FaSave />
-                        </button>
-                        <button type="button" className="perfiles-form__icon-btn perfiles-form__icon-btn--cancel" title="Cancelar" onClick={handleCancel}>
-                          <FaTimes />
-                        </button>
-                      </div>
-                    </div>
-
-                    <div className="perfiles-form__field">
-                      <label className="perfiles-form__label">Nombre del perfil</label>
-                      <input
-                        type="text"
-                        className="perfiles-form__input"
-                        value={formData.nombre}
-                        onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
-                        placeholder="Ej: Administrador"
-                      />
-                    </div>
-
-                    <div className="perfiles-form__field">
-                      <label className="perfiles-form__label">Áreas asignadas</label>
-                      <div className="perfiles-form__multiselect">
-                        {ALL_AREAS.map((area) => (
-                          <button
-                            key={area}
-                            type="button"
-                            className={`perfiles-form__chip ${formData.areas.includes(area) ? 'perfiles-form__chip--active' : ''}`}
-                            onClick={() => toggleArea(area)}
-                          >
-                            {formData.areas.includes(area) && <FaCheck className="perfiles-form__chip-icon" />}
-                            {area}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="perfiles-form__field">
-                      <label className="perfiles-form__label">Usuarios asignados ({formData.usuarios.length})</label>
-                      <input
-                        type="text"
-                        className="perfiles-form__input perfiles-form__input--search"
-                        value={userSearch}
-                        onChange={(e) => setUserSearch(e.target.value)}
-                        placeholder="Buscar usuarios..."
-                      />
-                      <div className="perfiles-form__multiselect perfiles-form__multiselect--users">
-                        {filteredUsers.map((user) => (
-                          <button
-                            key={user}
-                            type="button"
-                            className={`perfiles-form__chip ${formData.usuarios.includes(user) ? 'perfiles-form__chip--active' : ''}`}
-                            onClick={() => toggleUser(user)}
-                          >
-                            <FaUser className="perfiles-form__chip-user-icon" />
-                            <span>{user}</span>
-                            {formData.usuarios.includes(user) && <FaCheck className="perfiles-form__chip-check" />}
-                          </button>
-                        ))}
-                        {filteredUsers.length === 0 && (
-                          <span className="perfiles-form__no-results">No se encontraron usuarios</span>
-                        )}
-                      </div>
-                    </div>
-
-
-                  </div>
-                ) : selected ? (
-                  <>
-                    <h4 className="perfiles-detail__title">{selected.nombre}</h4>
-
-                    <div className="perfiles-detail__field">
-                      <span className="perfiles-detail__label">Nombre del perfil</span>
-                      <span className="perfiles-detail__value">{selected.nombre}</span>
-                    </div>
-
-                    <div className="perfiles-detail__field">
-                      <span className="perfiles-detail__label">Fecha de creación</span>
-                      <span className="perfiles-detail__value">{selected.fechaCreacion}</span>
-                    </div>
-
-                    <div className="perfiles-detail__field">
-                      <span className="perfiles-detail__label">Áreas asignadas ({selected.areas.length})</span>
-                    </div>
-
-                    <div className="perfiles-detail__areas-grid">
-                      {ALL_AREAS.map((area) => (
-                        <div
-                          key={area}
-                          className={`perfiles-detail__area ${selected.areas.includes(area) ? 'perfiles-detail__area--active' : ''}`}
+                    </thead>
+                    <tbody>
+                      {pageData.map((p) => (
+                        <tr
+                          key={p.id}
+                          className={`perfiles-tr ${selected?.id === p.id ? 'perfiles-tr--active' : ''}`}
+                          onClick={() => handleSelect(p)}
                         >
-                          {area}
-                        </div>
+                          <td className="perfiles-cell-name">{p.nombre}</td>
+                          <td className='text-center'>
+                            <span className="perfiles-badge-count">{p.areas.length}</span>
+                          </td>
+                          <td className='text-center'>{p.fechaCreacion}</td>
+                          <td className='text-center'>
+                            <span className="perfiles-badge-count">{p.usuarios.length}</span>
+                          </td>
+                          <td className="perfiles-actions">
+                            <button type="button" className="perfiles-action-btn" title="Editar" onClick={(e) => handleEdit(p, e)}>
+                              <FaEdit />
+                            </button>
+                            <button type="button" className="perfiles-action-btn perfiles-action-btn--danger" title="Eliminar">
+                              <FaTrashAlt />
+                            </button>
+                          </td>
+                        </tr>
                       ))}
-                    </div>
+                    </tbody>
+                  </table>
+                </div>
 
-                    <div className="perfiles-detail__field">
-                      <span className="perfiles-detail__label">Usuarios asignados ({selected.usuarios.length})</span>
-                    </div>
+                <div className="perfiles-footer">
+                  <span className="perfiles-footer__count">
+                    Total: <strong>{MOCK_PERFILES.length}</strong> perfiles
+                  </span>
+                  <Pagination className="perfiles-pagination">
+                    <Pagination.Prev
+                      disabled={page === 1}
+                      onClick={() => setPage((p) => Math.max(1, p - 1))}
+                    />
+                    {pages}
+                    <Pagination.Next
+                      disabled={page === totalPages}
+                      onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                    />
+                  </Pagination>
+                </div>
+              </Col>
 
-                    <div className="perfiles-detail__users-grid">
-                      {selected.usuarios.map((u) => (
-                        <div key={u} className="perfiles-detail__user">
-                          <FaUser className="perfiles-detail__user-icon" />
-                          <span>{u}</span>
+              <Col xs={12} lg={5} className="perfiles-col-right">
+                <div className="perfiles-detail">
+                  {showForm ? (
+                    <div className="perfiles-form">
+                      <div className="perfiles-form__title-row">
+                        <h4 className="perfiles-form__title">
+                          {selected ? `Editar: ${selected.nombre}` : 'Nuevo perfil'}
+                        </h4>
+                        <div className="perfiles-form__title-actions">
+                          <button type="button" className="perfiles-form__icon-btn" title="Guardar">
+                            <FaSave />
+                          </button>
+                          <button type="button" className="perfiles-form__icon-btn perfiles-form__icon-btn--cancel" title="Cancelar" onClick={handleCancel}>
+                            <FaTimes />
+                          </button>
                         </div>
-                      ))}
+                      </div>
+
+                      <div className="perfiles-form__field">
+                        <label className="perfiles-form__label">Nombre del perfil</label>
+                        <input
+                          type="text"
+                          className="perfiles-form__input"
+                          value={formData.nombre}
+                          onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
+                          placeholder="Ej: Administrador"
+                        />
+                      </div>
+
+                      <div className="perfiles-form__field">
+                        <label className="perfiles-form__label">Áreas asignadas</label>
+                        <div className="perfiles-form__multiselect">
+                          {ALL_AREAS.map((area) => (
+                            <button
+                              key={area}
+                              type="button"
+                              className={`perfiles-form__chip ${formData.areas.includes(area) ? 'perfiles-form__chip--active' : ''}`}
+                              onClick={() => toggleArea(area)}
+                            >
+                              {formData.areas.includes(area) && <FaCheck className="perfiles-form__chip-icon" />}
+                              {area}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="perfiles-form__field">
+                        <label className="perfiles-form__label">Usuarios asignados ({formData.usuarios.length})</label>
+                        <input
+                          type="text"
+                          className="perfiles-form__input perfiles-form__input--search"
+                          value={userSearch}
+                          onChange={(e) => setUserSearch(e.target.value)}
+                          placeholder="Buscar usuarios..."
+                        />
+                        <div className="perfiles-form__multiselect perfiles-form__multiselect--users">
+                          {filteredUsers.map((user) => (
+                            <button
+                              key={user}
+                              type="button"
+                              className={`perfiles-form__chip ${formData.usuarios.includes(user) ? 'perfiles-form__chip--active' : ''}`}
+                              onClick={() => toggleUser(user)}
+                            >
+                              <FaUser className="perfiles-form__chip-user-icon" />
+                              <span>{user}</span>
+                              {formData.usuarios.includes(user) && <FaCheck className="perfiles-form__chip-check" />}
+                            </button>
+                          ))}
+                          {filteredUsers.length === 0 && (
+                            <span className="perfiles-form__no-results">No se encontraron usuarios</span>
+                          )}
+                        </div>
+                      </div>
+
+
                     </div>
-                  </>
-                ) : (
-                  <div className="perfiles-detail__empty">
-                    <FaUser size={40} />
-                    <p>Selecciona un perfil para ver su información</p>
-                  </div>
-                )}
-              </div>
-            </Col>
-          </Row>
+                  ) : selected ? (
+                    <>
+                      <h4 className="perfiles-detail__title">{selected.nombre}</h4>
+
+                      <div className="perfiles-detail__field">
+                        <span className="perfiles-detail__label">Nombre del perfil</span>
+                        <span className="perfiles-detail__value">{selected.nombre}</span>
+                      </div>
+
+                      <div className="perfiles-detail__field">
+                        <span className="perfiles-detail__label">Fecha de creación</span>
+                        <span className="perfiles-detail__value">{selected.fechaCreacion}</span>
+                      </div>
+
+                      <div className="perfiles-detail__field">
+                        <span className="perfiles-detail__label">Áreas asignadas ({selected.areas.length})</span>
+                      </div>
+
+                      <div className="perfiles-detail__areas-grid">
+                        {ALL_AREAS.map((area) => (
+                          <div
+                            key={area}
+                            className={`perfiles-detail__area ${selected.areas.includes(area) ? 'perfiles-detail__area--active' : ''}`}
+                          >
+                            {area}
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="perfiles-detail__field">
+                        <span className="perfiles-detail__label">Usuarios asignados ({selected.usuarios.length})</span>
+                      </div>
+
+                      <div className="perfiles-detail__users-grid">
+                        {selected.usuarios.map((u) => (
+                          <div key={u} className="perfiles-detail__user">
+                            <FaUser className="perfiles-detail__user-icon" />
+                            <span>{u}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </>
+                  ) : (
+                    <div className="perfiles-detail__empty">
+                      <FaUser size={40} />
+                      <p>Selecciona un perfil para ver su información</p>
+                    </div>
+                  )}
+                </div>
+              </Col>
+            </Row>
+          </div>
         </Container>
       </main>
     </div>

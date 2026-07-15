@@ -7,6 +7,7 @@ import Colmena from './views/Colmena';
 import Almasa from './views/Almasa';
 import Gyj from './views/Gyj';
 import Admin from './views/Admin';
+import General from './views/General';
 import Usuarios from './views/views admin/Usuarios';
 import ReportesPowerBi from './views/views admin/ReportesPowerBi';
 import Perfiles from './views/views admin/Perfiles';
@@ -48,6 +49,14 @@ function App() {
           element={
             <ProtectedRoute company="gyj">
               <Gyj />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/general"
+          element={
+            <ProtectedRoute adminOnly>
+              <General />
             </ProtectedRoute>
           }
         />

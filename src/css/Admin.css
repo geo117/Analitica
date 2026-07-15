@@ -2,7 +2,11 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: var(--color-white);
+  background-image: url("../../src/assets/fondo.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 .admin-content {
@@ -15,6 +19,13 @@
   flex-direction: column;
   gap: 12px;
   margin-bottom: 40px;
+}
+
+.admin-header__box {
+  padding: 28px 32px;
+  border-radius: var(--radius-md);
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(6px);
 }
 
 .admin-header__top {
@@ -69,6 +80,13 @@
   max-width: 50ch;
 }
 
+.admin-section__box {
+  padding: 24px;
+  border-radius: var(--radius-md);
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(6px);
+}
+
 .admin-grid {
   --bs-gutter-y: 1rem;
 }
@@ -83,9 +101,10 @@
   gap: 16px;
   width: 100%;
   padding: 20px 24px;
-  background: none;
   border: 2px solid var(--color-border);
   border-radius: var(--radius-md);
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(4px);
   cursor: pointer;
   text-align: left;
   font-family: inherit;
@@ -147,6 +166,14 @@
     margin-bottom: 24px;
   }
 
+  .admin-header__box {
+    padding: 24px 20px;
+  }
+
+  .admin-section__box {
+    padding: 16px;
+  }
+
   .admin-header h1 {
     font-size: 1.4rem;
   }
@@ -187,6 +214,14 @@
 
   .admin-header {
     margin-bottom: 20px;
+  }
+
+  .admin-header__box {
+    padding: 20px 16px;
+  }
+
+  .admin-section__box {
+    padding: 12px;
   }
 
   .admin-header h1 {

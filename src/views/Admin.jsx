@@ -22,18 +22,20 @@ function Admin() {
       <main className="admin-content">
         <Container>
           <div className="admin-header">
-            <div className="admin-header__top">
-              <h3>Administración</h3>
-              <button
-                type="button"
-                className="admin-header__back"
-                onClick={() => navigate('/home')}
-              >
-                <FaArrowLeft />
-                <span>Volver</span>
-              </button>
+            <div className="admin-header__box">
+              <div className="admin-header__top">
+                <h2>Administración</h2>
+                <button
+                  type="button"
+                  className="admin-header__back"
+                  onClick={() => navigate('/home')}
+                >
+                  <FaArrowLeft />
+                  <span>Volver</span>
+                </button>
+              </div>
+              <p>Selecciona un módulo para gestionar la plataforma.</p>
             </div>
-            <p>Selecciona un módulo para gestionar la plataforma.</p>
           </div>
           <Row className="admin-grid">
             {ADMIN_ACTIONS.map((action) => {

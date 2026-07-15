@@ -152,274 +152,278 @@ function Permisos() {
       <main className="admin-content">
         <Container>
           <div className="admin-header">
-            <div className="admin-header__top">
-              <h3>Permisos</h3>
-              <button
-                type="button"
-                className="admin-header__back"
-                onClick={() => navigate('/admin')}
-              >
-                <FaArrowLeft />
-                <span>Volver</span>
+            <div className="admin-header__box">
+              <div className="admin-header__top">
+                <h3>Permisos</h3>
+                <button
+                  type="button"
+                  className="admin-header__back"
+                  onClick={() => navigate('/admin')}
+                >
+                  <FaArrowLeft />
+                  <span>Volver</span>
+                </button>
+              </div>
+              <p>Asigna permisos a los perfiles.</p>
+            </div>
+          </div>
+
+          <div className="admin-section__box">
+            <div className="permisos-toolbar">
+              <span />
+              <button type="button" className="permisos-btn-new" onClick={handleNew}>
+                <FaPlus />
+                <span>Agregar nuevo permiso</span>
               </button>
             </div>
-            <p>Asigna permisos a los perfiles.</p>
-          </div>
 
-          <div className="permisos-toolbar">
-            <span />
-            <button type="button" className="permisos-btn-new" onClick={handleNew}>
-              <FaPlus />
-              <span>Agregar nuevo permiso</span>
-            </button>
-          </div>
-
-          <Row className="permisos-layout">
-            <Col xs={12} lg={7} className="permisos-col-left">
-              <div className="permisos-table-scroll">
-                <table className="table permisos-table">
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Perfil</th>
-                      <th>Fecha Creación</th>
-                      <th className="permisos-th-actions">Acciones</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {pageData.map((p) => (
-                      <tr
-                        key={p.id}
-                        className={`permisos-tr ${selected?.id === p.id && !showForm ? 'permisos-tr--active' : ''}`}
-                        onClick={() => handleSelect(p)}
-                      >
-                        <td>{p.id}</td>
-                        <td className="permisos-cell-name">{p.nombre}</td>
-                        <td>{p.fechaCreacion}</td>
-                        <td className="permisos-actions">
-                          <button
-                            type="button"
-                            className="permisos-action-btn"
-                            title="Editar"
-                            onClick={(e) => handleEdit(e, p)}
-                          >
-                            <FaEdit />
-                          </button>
-                          <button type="button" className="permisos-action-btn permisos-action-btn--danger" title="Eliminar">
-                            <FaTrashAlt />
-                          </button>
-                        </td>
+            <Row className="permisos-layout">
+              <Col xs={12} lg={7} className="permisos-col-left">
+                <div className="permisos-table-scroll">
+                  <table className="table permisos-table">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Perfil</th>
+                        <th>Fecha Creación</th>
+                        <th className="permisos-th-actions">Acciones</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                    </thead>
+                    <tbody>
+                      {pageData.map((p) => (
+                        <tr
+                          key={p.id}
+                          className={`permisos-tr ${selected?.id === p.id && !showForm ? 'permisos-tr--active' : ''}`}
+                          onClick={() => handleSelect(p)}
+                        >
+                          <td>{p.id}</td>
+                          <td className="permisos-cell-name">{p.nombre}</td>
+                          <td>{p.fechaCreacion}</td>
+                          <td className="permisos-actions">
+                            <button
+                              type="button"
+                              className="permisos-action-btn"
+                              title="Editar"
+                              onClick={(e) => handleEdit(e, p)}
+                            >
+                              <FaEdit />
+                            </button>
+                            <button type="button" className="permisos-action-btn permisos-action-btn--danger" title="Eliminar">
+                              <FaTrashAlt />
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
 
-              <div className="permisos-footer">
-                <span className="permisos-footer__count">
-                  Total: <strong>{perfiles.length}</strong> perfiles
-                </span>
-                <Pagination className="permisos-pagination">
-                  <Pagination.Prev
-                    disabled={page === 1}
-                    onClick={() => setPage((p) => Math.max(1, p - 1))}
-                  />
-                  {pages}
-                  <Pagination.Next
-                    disabled={page === totalPages}
-                    onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-                  />
-                </Pagination>
-              </div>
-            </Col>
+                <div className="permisos-footer">
+                  <span className="permisos-footer__count">
+                    Total: <strong>{perfiles.length}</strong> perfiles
+                  </span>
+                  <Pagination className="permisos-pagination">
+                    <Pagination.Prev
+                      disabled={page === 1}
+                      onClick={() => setPage((p) => Math.max(1, p - 1))}
+                    />
+                    {pages}
+                    <Pagination.Next
+                      disabled={page === totalPages}
+                      onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                    />
+                  </Pagination>
+                </div>
+              </Col>
 
-            <Col xs={12} lg={5} className="permisos-col-right">
-              <div className="permisos-detail">
-                {showForm ? (
-                  <div className="permisos-form">
-                    <div className="permisos-form__header">
-                      <h4 className="permisos-form__title">Nuevo permiso</h4>
-                      <div className="permisos-form__header-actions">
-                        <button type="button" className="permisos-icon-btn permisos-icon-btn--save" title="Guardar" onClick={handleSaveNew}>
-                          <FaSave />
-                        </button>
-                        <button type="button" className="permisos-icon-btn permisos-icon-btn--cancel" title="Cancelar" onClick={handleCancelEdit}>
-                          <FaTimes />
-                        </button>
-                      </div>
-                    </div>
-                    <div className="permisos-form__field">
-                      <label className="permisos-form__label">Seleccionar perfil</label>
-                      <select
-                        className="permisos-form__select"
-                        value={formProfileId}
-                        onChange={(e) => setFormProfileId(e.target.value)}
-                      >
-                        <option value="">-- Seleccione un perfil --</option>
-                        {perfiles.map((p) => (
-                          <option key={p.id} value={p.id}>{p.nombre}</option>
-                        ))}
-                      </select>
-                    </div>
-                    <div className="permisos-permissions">
-                      <h5 className="permisos-permissions__heading">Permisos</h5>
-                      <Row className="permisos-permissions__grid">
-                        <Col xs={6} className="permisos-permissions__col-left">
-                          <div className="permisos-permissions__header">
-                            <span className="permisos-permissions__header-con">Permisos disponibles</span>
-                          </div>
-                          <div className="permisos-permissions__list">
-                            {ALL_PERMISOS.map((perm) => (
-                              <div key={perm.id} className="permisos-permissions__item">
-                                {perm.nombre}
-                              </div>
-                            ))}
-                          </div>
-                        </Col>
-                        <Col xs={6} className="permisos-permissions__col-right">
-                          <div className="permisos-permissions__header">
-                            <span className="permisos-permissions__header-con">Con permiso</span>
-                            <span className="permisos-permissions__header-sin">Sin permiso</span>
-                          </div>
-                          <div className="permisos-permissions__checks">
-                            {ALL_PERMISOS.map((perm) => {
-                              const tiene = formPermisos.includes(perm.id);
-                              return (
-                                <div key={perm.id} className="permisos-permissions__checks-row">
-                                  <label className="permisos-permissions__checkbox-label">
-                                    <input
-                                      type="checkbox"
-                                      className="permisos-permissions__checkbox"
-                                      checked={tiene}
-                                      onChange={() => toggleFormPermiso(perm.id)}
-                                    />
-                                  </label>
-                                  <label className="permisos-permissions__checkbox-label">
-                                    <input
-                                      type="checkbox"
-                                      className="permisos-permissions__checkbox"
-                                      checked={!tiene}
-                                      onChange={() => {
-                                        const nuevos = formPermisos.filter((id) => id !== perm.id);
-                                        setFormPermisos(nuevos);
-                                      }}
-                                    />
-                                  </label>
-                                </div>
-                              );
-                            })}
-                          </div>
-                        </Col>
-                      </Row>
-                    </div>
-                  </div>
-                ) : selected ? (
-                  <div className="permisos-profile">
-                    <div className="permisos-profile__header">
-                      <h4 className="permisos-profile__title">{selected.nombre}</h4>
-                      {editing && (
-                        <div className="permisos-profile__header-actions">
-                          <button type="button" className="permisos-icon-btn permisos-icon-btn--save" title="Guardar" onClick={handleSaveEdit}>
+              <Col xs={12} lg={5} className="permisos-col-right">
+                <div className="permisos-detail">
+                  {showForm ? (
+                    <div className="permisos-form">
+                      <div className="permisos-form__header">
+                        <h4 className="permisos-form__title">Nuevo permiso</h4>
+                        <div className="permisos-form__header-actions">
+                          <button type="button" className="permisos-icon-btn permisos-icon-btn--save" title="Guardar" onClick={handleSaveNew}>
                             <FaSave />
                           </button>
                           <button type="button" className="permisos-icon-btn permisos-icon-btn--cancel" title="Cancelar" onClick={handleCancelEdit}>
                             <FaTimes />
                           </button>
                         </div>
-                      )}
-                    </div>
-                    <div className="permisos-profile__field">
-                      <span className="permisos-profile__label">Perfil</span>
-                      <span className="permisos-profile__value">{selected.nombre}</span>
-                    </div>
-                    <div className="permisos-profile__field">
-                      <span className="permisos-profile__label">Fecha de creación</span>
-                      <span className="permisos-profile__value">{selected.fechaCreacion}</span>
-                    </div>
-
-                    <div className="permisos-permissions">
-                      <h5 className="permisos-permissions__heading">Permisos asignados</h5>
-                      <Row className="permisos-permissions__grid">
-                        <Col xs={6} className="permisos-permissions__col-left">
-                          <div className="permisos-permissions__header">
-                            <span className="permisos-permissions__header-con">Permisos disponibles</span>
-                          </div>
-                          <div className="permisos-permissions__list">
-                            {ALL_PERMISOS.map((perm) => (
-                              <div key={perm.id} className="permisos-permissions__item">
-                                {perm.nombre}
-                              </div>
-                            ))}
-                          </div>
-                        </Col>
-                        <Col xs={6} className="permisos-permissions__col-right">
-                          <div className="permisos-permissions__header">
-                            <span className="permisos-permissions__header-con">Con permiso</span>
-                            <span className="permisos-permissions__header-sin">Sin permiso</span>
-                          </div>
-                          <div className="permisos-permissions__checks">
-                            {ALL_PERMISOS.map((perm) => {
-                              const lista = editing ? draftPermisos : selected.permisos;
-                              const tiene = lista.includes(perm.id);
-                              return (
-                                <div key={perm.id} className="permisos-permissions__checks-row">
-                                  {editing ? (
-                                    <>
-                                      <label className="permisos-permissions__checkbox-label">
-                                        <input
-                                          type="checkbox"
-                                          className="permisos-permissions__checkbox"
-                                          checked={tiene}
-                                          onChange={() => toggleDraft(perm.id)}
-                                        />
-                                      </label>
-                                      <label className="permisos-permissions__checkbox-label">
-                                        <input
-                                          type="checkbox"
-                                          className="permisos-permissions__checkbox"
-                                          checked={!tiene}
-                                          onChange={() => {
-                                            const nuevos = draftPermisos.filter((id) => id !== perm.id);
-                                            setDraftPermisos(nuevos);
-                                          }}
-                                        />
-                                      </label>
-                                    </>
-                                  ) : (
-                                    <>
-                                      <div className="permisos-permissions__indicator-cell">
-                                        {tiene && (
-                                          <span className="permisos-permissions__indicator permisos-permissions__indicator--on">
-                                            <FaCheck />
-                                          </span>
-                                        )}
-                                      </div>
-                                      <div className="permisos-permissions__indicator-cell">
-                                        {!tiene && (
-                                          <span className="permisos-permissions__indicator permisos-permissions__indicator--on">
-                                            <FaCheck />
-                                          </span>
-                                        )}
-                                      </div>
-                                    </>
-                                  )}
+                      </div>
+                      <div className="permisos-form__field">
+                        <label className="permisos-form__label">Seleccionar perfil</label>
+                        <select
+                          className="permisos-form__select"
+                          value={formProfileId}
+                          onChange={(e) => setFormProfileId(e.target.value)}
+                        >
+                          <option value="">-- Seleccione un perfil --</option>
+                          {perfiles.map((p) => (
+                            <option key={p.id} value={p.id}>{p.nombre}</option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="permisos-permissions">
+                        <h5 className="permisos-permissions__heading">Permisos</h5>
+                        <Row className="permisos-permissions__grid">
+                          <Col xs={6} className="permisos-permissions__col-left">
+                            <div className="permisos-permissions__header">
+                              <span className="permisos-permissions__header-con">Permisos disponibles</span>
+                            </div>
+                            <div className="permisos-permissions__list">
+                              {ALL_PERMISOS.map((perm) => (
+                                <div key={perm.id} className="permisos-permissions__item">
+                                  {perm.nombre}
                                 </div>
-                              );
-                            })}
-                          </div>
-                        </Col>
-                      </Row>
+                              ))}
+                            </div>
+                          </Col>
+                          <Col xs={6} className="permisos-permissions__col-right">
+                            <div className="permisos-permissions__header">
+                              <span className="permisos-permissions__header-con">Con permiso</span>
+                              <span className="permisos-permissions__header-sin">Sin permiso</span>
+                            </div>
+                            <div className="permisos-permissions__checks">
+                              {ALL_PERMISOS.map((perm) => {
+                                const tiene = formPermisos.includes(perm.id);
+                                return (
+                                  <div key={perm.id} className="permisos-permissions__checks-row">
+                                    <label className="permisos-permissions__checkbox-label">
+                                      <input
+                                        type="checkbox"
+                                        className="permisos-permissions__checkbox"
+                                        checked={tiene}
+                                        onChange={() => toggleFormPermiso(perm.id)}
+                                      />
+                                    </label>
+                                    <label className="permisos-permissions__checkbox-label">
+                                      <input
+                                        type="checkbox"
+                                        className="permisos-permissions__checkbox"
+                                        checked={!tiene}
+                                        onChange={() => {
+                                          const nuevos = formPermisos.filter((id) => id !== perm.id);
+                                          setFormPermisos(nuevos);
+                                        }}
+                                      />
+                                    </label>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </Col>
+                        </Row>
+                      </div>
                     </div>
-                  </div>
-                ) : (
-                  <div className="permisos-detail__empty">
-                    <FaShieldAlt size={40} />
-                    <p>Selecciona un perfil para ver sus permisos</p>
-                  </div>
-                )}
-              </div>
-            </Col>
-          </Row>
+                  ) : selected ? (
+                    <div className="permisos-profile">
+                      <div className="permisos-profile__header">
+                        <h4 className="permisos-profile__title">{selected.nombre}</h4>
+                        {editing && (
+                          <div className="permisos-profile__header-actions">
+                            <button type="button" className="permisos-icon-btn permisos-icon-btn--save" title="Guardar" onClick={handleSaveEdit}>
+                              <FaSave />
+                            </button>
+                            <button type="button" className="permisos-icon-btn permisos-icon-btn--cancel" title="Cancelar" onClick={handleCancelEdit}>
+                              <FaTimes />
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                      <div className="permisos-profile__field">
+                        <span className="permisos-profile__label">Perfil</span>
+                        <span className="permisos-profile__value">{selected.nombre}</span>
+                      </div>
+                      <div className="permisos-profile__field">
+                        <span className="permisos-profile__label">Fecha de creación</span>
+                        <span className="permisos-profile__value">{selected.fechaCreacion}</span>
+                      </div>
+
+                      <div className="permisos-permissions">
+                        <h5 className="permisos-permissions__heading">Permisos asignados</h5>
+                        <Row className="permisos-permissions__grid">
+                          <Col xs={6} className="permisos-permissions__col-left">
+                            <div className="permisos-permissions__header">
+                              <span className="permisos-permissions__header-con">Permisos disponibles</span>
+                            </div>
+                            <div className="permisos-permissions__list">
+                              {ALL_PERMISOS.map((perm) => (
+                                <div key={perm.id} className="permisos-permissions__item">
+                                  {perm.nombre}
+                                </div>
+                              ))}
+                            </div>
+                          </Col>
+                          <Col xs={6} className="permisos-permissions__col-right">
+                            <div className="permisos-permissions__header">
+                              <span className="permisos-permissions__header-con">Con permiso</span>
+                              <span className="permisos-permissions__header-sin">Sin permiso</span>
+                            </div>
+                            <div className="permisos-permissions__checks">
+                              {ALL_PERMISOS.map((perm) => {
+                                const lista = editing ? draftPermisos : selected.permisos;
+                                const tiene = lista.includes(perm.id);
+                                return (
+                                  <div key={perm.id} className="permisos-permissions__checks-row">
+                                    {editing ? (
+                                      <>
+                                        <label className="permisos-permissions__checkbox-label">
+                                          <input
+                                            type="checkbox"
+                                            className="permisos-permissions__checkbox"
+                                            checked={tiene}
+                                            onChange={() => toggleDraft(perm.id)}
+                                          />
+                                        </label>
+                                        <label className="permisos-permissions__checkbox-label">
+                                          <input
+                                            type="checkbox"
+                                            className="permisos-permissions__checkbox"
+                                            checked={!tiene}
+                                            onChange={() => {
+                                              const nuevos = draftPermisos.filter((id) => id !== perm.id);
+                                              setDraftPermisos(nuevos);
+                                            }}
+                                          />
+                                        </label>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <div className="permisos-permissions__indicator-cell">
+                                          {tiene && (
+                                            <span className="permisos-permissions__indicator permisos-permissions__indicator--on">
+                                              <FaCheck />
+                                            </span>
+                                          )}
+                                        </div>
+                                        <div className="permisos-permissions__indicator-cell">
+                                          {!tiene && (
+                                            <span className="permisos-permissions__indicator permisos-permissions__indicator--on">
+                                              <FaCheck />
+                                            </span>
+                                          )}
+                                        </div>
+                                      </>
+                                    )}
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </Col>
+                        </Row>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="permisos-detail__empty">
+                      <FaShieldAlt size={40} />
+                      <p>Selecciona un perfil para ver sus permisos</p>
+                    </div>
+                  )}
+                </div>
+              </Col>
+            </Row>
+          </div>
         </Container>
       </main>
     </div>
