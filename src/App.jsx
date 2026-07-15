@@ -14,6 +14,7 @@ import Perfiles from './views/views admin/Perfiles';
 import Permisos from './views/views admin/Permisos';
 import Noticias from './views/views admin/Noticias';
 import Areas from './views/views admin/Areas';
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   return (
@@ -118,6 +119,7 @@ function App() {
         />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+      <ScrollToTop />
     </AuthProvider>
   );
 }
